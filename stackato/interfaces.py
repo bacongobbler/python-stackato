@@ -31,7 +31,7 @@ class StackatoInterface(object):
                         data = json.load(fobj)
                         if self.target in data:
                             self.token = data[self.target]
-                    except ValueError: # Invalid JSON in file, probably empty (or modified)
+                    except ValueError: # Invalid JSON in file, probably empty (or modified. Kids these days...)
                         pass
 
     def auth_args(self, authentication_required):
