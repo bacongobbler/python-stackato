@@ -4,16 +4,16 @@ from setuptools import find_packages
 from distutils.core import setup
 
 setup(
-    author=u'Kristian Øllegaard',
-    author_email='kristian@oellegaard.com',
-    name='python-cloudfoundry',
-    description='Python interface to CloudFoundry',
-    version="0.3",
-    url='http://www.github.com/KristianOellegaard/python-cloudfoundry/',
+    author=u'Matthew Fisher',
+    author_email='me@bacongobbler.com',
+    name='python-stackato',
+    description='Python interface to Stackato',
+    version="0.1",
+    url='http://www.github.com/bacongobbler/python-cloudfoundry/',
     license='MIT License',
     packages = find_packages(),
     classifiers=[
-        'Development Status :: 3 - Alpha',
+        'Development Status :: 1 - Alpha',
         'Intended Audience :: Developers',
         'Operating System :: OS Independent',
         'Programming Language :: Python',
