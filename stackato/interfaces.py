@@ -2,12 +2,13 @@ import json
 import urllib
 from urlparse import urljoin
 import requests
-from cloudfoundry.apps import CloudFoundryApp
-from cloudfoundry.services import CloudFoundryService
-from cloudfoundry.exceptions import CloudFoundryException, CloudFoundryAuthenticationException
+from stackato.apps import StackatoApp
+from stackato.services import StackatoService
+from stackato.exceptions import StackatoException, StackatoAuthenticationException
 import os
 
-class CloudFoundryInterface(object):
+
+class StackatoInterface(object):
     token_file = '~/.vmc_token'
     def __init__(self, target, username=None, password=None, store_token=False):
         self.target = target
@@ -33,7 +34,7 @@ class CloudFoundryInterface(object):
         elif not self.token and self.store_token: # Ignore, will request new token afterwards!
             return {}
         elif not self.token:
-            raise CloudFoundryAuthenticationException("Please login before using this function")
+            raise StackatoAuthenticationException("Please login before using this function")
         return {'headers': {'Authorization': self.token}}
 
     def _request(self, url, request_type=requests.get, authentication_required=True, data=None):
@@ -44,14 +45,14 @@ class CloudFoundryInterface(object):
             return request
         elif request.status_code == 403:
             if not authentication_required:
-                raise CloudFoundryAuthenticationException(request.text)
+                raise StackatoAuthenticationException(request.text)
             else:
                 self.login()
                 return self._request(url, request_type, authentication_required=False, data=data)
         elif request.status_code == 404:
-            raise CloudFoundryException("HTTP %s - %s" % (request.status_code, request.text))
+            raise StackatoException("HTTP %s - %s" % (request.status_code, request.text))
         else:
-            raise CloudFoundryException("HTTP %s - %s" % (request.status_code, request.text))
+            raise StackatoException("HTTP %s - %s" % (request.status_code, request.text))
 
     def _get_json_or_exception(self, *args, **kwargs):
         return self._request(*args, **kwargs).json
@@ -81,10 +82,10 @@ class CloudFoundryInterface(object):
         return True
 
     def get_apps(self):
-        return [CloudFoundryApp.from_dict(app, self) for app in self._get_json_or_exception("apps/")]
+        return [StackatoApp.from_dict(app, self) for app in self._get_json_or_exception("apps/")]
 
     def get_app(self, name):
-        return CloudFoundryApp.from_dict(self._get_json_or_exception("apps/%s" % name), self)
+        return StackatoApp.from_dict(self._get_json_or_exception("apps/%s" % name), self)
 
     def get_app_crashes(self, name):
         return self._get_json_or_exception("apps/%s/crashes" % name)
@@ -99,11 +100,10 @@ class CloudFoundryInterface(object):
         return self._get_true_or_exception("apps/%s" % name, request_type=requests.delete)
 
     def get_services(self):
-        return [CloudFoundryService.from_dict(service, self) for service in self._get_json_or_exception("services/")]
+        return [StackatoService.from_dict(service, self) for service in self._get_json_or_exception("services/")]
 
     def get_service(self, name):
-        return CloudFoundryService.from_dict(self._get_json_or_exception("services/%s" % name), self)
+        return StackatoService.from_dict(self._get_json_or_exception("services/%s" % name), self)
 
     def delete_service(self, name):
         return self._get_true_or_exception("services/%s" % name, request_type=requests.delete)
-

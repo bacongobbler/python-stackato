@@ -1,6 +1,6 @@
 
 
-class CloudFoundryService(object):
+class StackatoService(object):
 
     meta = {}
     properties = {}
@@ -28,7 +28,7 @@ class CloudFoundryService(object):
 
     @staticmethod
     def from_dict(dict, interface=None):
-        return CloudFoundryService(interface=interface, **dict)
+        return StackatoService(interface=interface, **dict)
 
     def delete(self):
         if not self.interface:

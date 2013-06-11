@@ -1,5 +1,6 @@
 
-class CloudFoundryApp(object):
+
+class StackatoApp(object):
     environment_variables = []
     instances = 0
     meta = {}
@@ -33,7 +34,7 @@ class CloudFoundryApp(object):
 
     @staticmethod
     def from_dict(dict, interface=None):
-        return CloudFoundryApp(interface=interface, **dict)
+        return StackatoApp(interface=interface, **dict)
 
     def delete(self):
         if not self.interface:
