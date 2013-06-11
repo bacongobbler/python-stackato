@@ -4,13 +4,8 @@ from urlparse import urljoin
 import requests
 from cloudfoundry.apps import CloudFoundryApp
 from cloudfoundry.services import CloudFoundryService
+from cloudfoundry.exceptions import CloudFoundryException, CloudFoundryAuthenticationException
 import os
-
-class CloudFoundryException(Exception):
-    pass
-
-class CloudFoundryAuthenticationException(CloudFoundryException):
-    pass
 
 class CloudFoundryInterface(object):
     token_file = '~/.vmc_token'
