@@ -34,19 +34,24 @@ class StackatoInterface(object):
                     except ValueError: # Invalid JSON in file, probably empty (or modified. Kids these days...)
                         pass
 
-    def auth_args(self, authentication_required):
-        if not authentication_required and not self.token:
+    '''
+    Retrieves the "Authentication:" header required for making specific calls to the
+    Stackato Client API that requires authentication
+    '''
+    def get_auth_args(self, authentication_required):
+        if not (authentication_required or self.token):
             return {}
         elif not self.token and self.store_token: # Ignore, will request new token afterwards!
             return {}
         elif not self.token:
-            raise StackatoAuthenticationException("Please login before using this function")
-        return {'headers': {'Authorization': self.token}}
+            raise StackatoAuthenticationException("Please login before using this function.")
+
+        return {'Authorization': self.token}
 
     def _request(self, url, request_type=requests.get, authentication_required=True, data=None):
         if data:
             data = json.dumps(data)
-        request = request_type(urljoin(self.target, url), data=data, **self.auth_args(authentication_required))
+        request = request_type(urljoin(self.target, url), data=data, headers=self.get_auth_args(authentication_required), verify=False)
         if request.status_code == 200:
             return request
         elif request.status_code == 403:
