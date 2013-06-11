@@ -61,7 +61,7 @@ class StackatoInterface(object):
             raise StackatoException("HTTP %s - %s" % (request.status_code, request.text))
 
     def _get_json_or_exception(self, *args, **kwargs):
-        return self._request(*args, **kwargs).json
+        return self._request(*args, **kwargs).json()
 
     def _get_true_or_exception(self, *args, **kwargs):
         self._request(*args, **kwargs)
