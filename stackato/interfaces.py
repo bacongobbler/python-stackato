@@ -96,7 +96,13 @@ class StackatoInterface(object):
         return [StackatoApp.from_dict(app, self) for app in self._get_json_or_exception("apps/")]
 
     def get_app(self, name):
-        return StackatoApp.from_dict(self._get_json_or_exception("apps/%s" % name), self)
+        return StackatoApp.from_dict(self.get_app_as_json(name), self)
+
+    def get_app_as_json(self, name):
+        return self._get_json_or_exception("apps/%s" % name)
+
+    def put_app(self, name, data):
+        return self._get_true_or_exception(("apps/%s" % name), request_type=requests.put, data=data)
 
     def get_app_crashes(self, name):
         return self._get_json_or_exception("apps/%s/crashes" % name)
