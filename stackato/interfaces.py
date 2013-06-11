@@ -7,17 +7,23 @@ from stackato.services import StackatoService
 from stackato.exceptions import StackatoException, StackatoAuthenticationException
 import os
 
-
+'''
+Represents an interface to communicate with a
+Stackato micro cloud or cluster (known as a Stackato instance).
+'''
 class StackatoInterface(object):
-    token_file = '~/.vmc_token'
-    def __init__(self, target, username=None, password=None, store_token=False):
-        self.target = target
-        self.username = username
-        self.password = password
-        self.token = None
-        self.store_token = store_token
-        self.token_file = os.path.expanduser(self.token_file)
+    
+    TOKEN_FILE_LOCAL_PATH = '~/.stackato/client/token'
 
+    def __init__(self, target, username=None, password=None, store_token=False):
+        self.target = target                # the Stackato instance we are targeting
+        self.username = username            # username used to log into the instance
+        self.password = password            # password used for the username
+        self.token = None                   # token that is required for authenticated calls to the API
+        self.store_token = store_token      # flag to store the token locally on the computer
+        self.token_file = os.path.expanduser(self.TOKEN_FILE_LOCAL_PATH)    # path to the file that contains the token
+
+        # check if the token is currently within the file. if it is, extract it and set self.token
         if self.store_token:
             if os.path.exists(self.token_file):
                 with open(self.token_file) as fobj:
