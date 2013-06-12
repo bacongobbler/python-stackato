@@ -3,6 +3,8 @@ Python-Stackato
 
 A wrapper to the Stackato Client API. Allows users to make requests to the Stackato API. Easy Peasy Lemon Squeezy.
 
+To read up more on the Stackato Client API, please see the documentation [here](http://docs.stackato.com/api/client.html).
+
 ## Usage
 
 ### Logging into the client
