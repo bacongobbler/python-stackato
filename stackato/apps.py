@@ -1,16 +1,6 @@
 
 
 class StackatoApp(object):
-    environment_variables = []
-    instances = 0
-    meta = {}
-    created = 0
-    debug = None
-    version = 0
-    running_instances = 0
-    services = []
-    state = ""
-    uris = []
 
     def __init__(self, name, env=None, instances=None, meta=None, created=None, debug=None, version=None,
                  runningInstances=None, services=None, state=None, uris=None, staging=None, resources=None,
@@ -27,6 +17,12 @@ class StackatoApp(object):
         self.state = state
         self.uris = uris
         self.interface = interface
+
+    def __str__(self):
+        return self._name
+
+    def __repr__(self):
+        return self.__str__()
 
     @property
     def name(self):

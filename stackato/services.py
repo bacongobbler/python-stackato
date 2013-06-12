@@ -2,14 +2,6 @@
 
 class StackatoService(object):
 
-    meta = {}
-    properties = {}
-    provider = ''
-    tier = ''
-    service_type = ''
-    vendor = ''
-    version = ''
-
     def __init__(self, name, meta=None, properties=None, provider=None, tier=None, type=None, vendor=None,
                  version=None, interface=None):
         self._name = name
