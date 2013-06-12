@@ -1,25 +1,37 @@
 Python-Stackato
 ===============
 
-Sample usage:
-```python
-from stackato import StackatoInterface
+A wrapper to the Stackato Client API. Allows users to make requests to the Stackato API. Easy Peasy Lemon Squeezy.
 
-cfi = StackatoInterface("https://api.stackato-xxxx.local", "username", "password")
-cfi.login()
+## Usage
 
-cfi.delete_app('demo')
-cfi.delte_service('demo')
-```
-or store token locally:
-```python
-from stackato import StackatoInterface
+### Logging into the client
 
-cfi = StackatoInterface("https://api.stackato-xxxx.local", "username", "password", store_token=True)
-cfi.login()
+    from stackato.interfaces import StackatoInterface
 
-cfi.delete_app('demo')
-cfi.delte_service('demo')
-```
+    sti = StackatoInterface("https://api.stackato-xxxx.local", "username", "password")
+    sti.login()
 
-More details to be added later.
+### Storing the authentication token locally, and deleting an app
+
+    from stackato.interfaces import StackatoInterface
+
+    # Spot the difference!
+    sti = StackatoInterface("https://api.stackato-xxxx.local", "username", "password", store_token=True)
+    
+    if sti.login():
+        sti.delete_app('demo')
+
+### Forcing your app to increase its number of instances by one
+
+    from stackato.interfaces import StackatoInterface
+
+    sti = StackatoInterface("https://api.stackato-xxxx.local", "username", "password")
+
+    if sti.login():
+        app = sti.get_app('demo')
+        app['instances'] += 1
+        
+        # make a PUT request to the application
+        if sti.put_app('demo', app):
+            print('added one more instance to this application.')
