@@ -118,25 +118,25 @@ class StackatoInterface(object):
     Generic GET request to the Stackato API.
     '''
     def _get(self, url):
-        return self._get_json_or_exception(urllib.quote_plus(url))
+        return self._get_json_or_exception(url)
 
     '''
     Generic POST request to the Stackato API.
     '''
     def _post(self, url, data):
-        return self._get_json_or_exception(urllib.quote_plus(url), request_type=requests.post, data=data)
+        return self._get_json_or_exception(url, request_type=requests.post, data=data)
 
     '''
     Generic PUT request to the Stackato API.
     '''
     def _put(self, url, data):
-        return self._get_true_or_exception(urllib.quote_plus(url), request_type=requests.put, data=data)
+        return self._get_true_or_exception(url, request_type=requests.put, data=data)
 
     '''
     Generic DELETE request to the Stackato API.
     '''
     def _delete(self, url):
-        return self._get_true_or_exception(urllib.quote_plus(url), request_type=requests.delete)
+        return self._get_true_or_exception(url, request_type=requests.delete)
 
     def get_apps(self):
         return [StackatoApp.from_dict(app, self) for app in self._get('apps')]
