@@ -15,6 +15,10 @@ class StackatoInterface(object):
     
     TOKEN_FILE_LOCAL_PATH = '~/.stackato/client/token'
 
+    '''
+    Initializes the interface. This interface
+    allows developers to make calls to the Stackato API.
+    '''
     def __init__(self, target, username=None, password=None, store_token=False):
         self.target = target                # the Stackato instance we are targeting
         self.username = username            # username used to log into the instance
@@ -36,7 +40,7 @@ class StackatoInterface(object):
 
     '''
     Retrieves the "Authentication:" header required for making specific calls to the
-    Stackato Client API that requires authentication
+    Stackato Client API.
     '''
     def get_auth_args(self, authentication_required):
         if not (authentication_required or self.token):
@@ -45,9 +49,15 @@ class StackatoInterface(object):
             return {}
         elif not self.token:
             raise StackatoAuthenticationException("Please login before using this function.")
-
         return {'Authorization': self.token}
 
+    '''
+    Make a generic request to the Stackato API.
+
+    If no data is specified, the request to the specified
+    URL assumes that this is a GET request, with no authentication
+    token required.
+    '''
     def _request(self, url, request_type=requests.get, authentication_required=True, data=None):
         if data:
             data = json.dumps(data)
@@ -65,13 +75,25 @@ class StackatoInterface(object):
         else:
             raise StackatoException("HTTP %s - %s" % (request.status_code, request.text))
 
+    '''
+    Attempt to make the request. If it completes without errors,
+    return the JSON object returned by the request.
+    '''
     def _get_json_or_exception(self, *args, **kwargs):
         return self._request(*args, **kwargs).json()
 
+    '''
+    Attempt to make the request. If it completes without errors,
+    return true.
+    '''
     def _get_true_or_exception(self, *args, **kwargs):
         self._request(*args, **kwargs)
         return True
 
+    '''
+    Attempt to login to the Stackato instance. Also
+    sets self.token for the authenticted user.
+    '''
     def login(self):
         self.token = self._get_json_or_exception(
             "users/%s/tokens" % urllib.quote_plus(self.username),
@@ -92,35 +114,56 @@ class StackatoInterface(object):
                 json.dump(data, token_file)
         return True
 
+    '''
+    Generic GET request to the Stackato API.
+    '''
+    def _get(self, url):
+        return self._get_json_or_exception(urllib.quote_plus(url))
+
+    '''
+    Generic POST request to the Stackato API.
+    '''
+    def _post(self, url, data):
+        return self._get_json_or_exception(urllib.quote_plus(url), request_type=requests.post, data=data)
+
+    '''
+    Generic PUT request to the Stackato API.
+    '''
+    def _put(self, url, data):
+        return self._get_true_or_exception(urllib.quote_plus(url), request_type=requests.put, data=data)
+
+    '''
+    Generic DELETE request to the Stackato API.
+    '''
+    def _delete(self, url):
+        return self._get_true_or_exception(urllib.quote_plus(url), request_type=requests.delete)
+
     def get_apps(self):
-        return [StackatoApp.from_dict(app, self) for app in self._get_json_or_exception("apps/")]
+        return [StackatoApp.from_dict(app, self) for app in self._get('apps')]
 
     def get_app(self, name):
-        return StackatoApp.from_dict(self.get_app_as_json(name), self)
-
-    def get_app_as_json(self, name):
-        return self._get_json_or_exception("apps/%s" % name)
+        return StackatoApp.from_dict(self._get('apps/%s' % name), self)
 
     def put_app(self, name, data):
-        return self._get_true_or_exception(("apps/%s" % name), request_type=requests.put, data=data)
+        return self._put(("apps/%s" % name), data)
 
     def get_app_crashes(self, name):
-        return self._get_json_or_exception("apps/%s/crashes" % name)
+        return self._get("apps/%s/crashes" % name)
 
     def get_app_instances(self, name):
-        return self._get_json_or_exception("apps/%s/instances" % name)
+        return self._get("apps/%s/instances" % name)
 
     def get_app_stats(self, name):
-        return self._get_json_or_exception("apps/%s/stats" % name)
+        return self._get("apps/%s/stats" % name)
 
     def delete_app(self, name):
-        return self._get_true_or_exception("apps/%s" % name, request_type=requests.delete)
+        return self._delete("apps/%s" % name)
 
     def get_services(self):
-        return [StackatoService.from_dict(service, self) for service in self._get_json_or_exception("services/")]
+        return [StackatoService.from_dict(service, self) for service in self._get("services/")]
 
     def get_service(self, name):
-        return StackatoService.from_dict(self._get_json_or_exception("services/%s" % name), self)
+        return StackatoService.from_dict(self._get("services/%s" % name), self)
 
     def delete_service(self, name):
-        return self._get_true_or_exception("services/%s" % name, request_type=requests.delete)
+        return self._delete("services/%s" % name)
