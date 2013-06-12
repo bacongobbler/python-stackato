@@ -147,6 +147,9 @@ class StackatoInterface(object):
     def put_app(self, name, data):
         return self._put(("apps/%s" % name), data)
 
+    def delete_app(self, name):
+        return self._delete("apps/%s" % name)
+
     def get_app_crashes(self, name):
         return self._get("apps/%s/crashes" % name)
 
@@ -155,9 +158,6 @@ class StackatoInterface(object):
 
     def get_app_stats(self, name):
         return self._get("apps/%s/stats" % name)
-
-    def delete_app(self, name):
-        return self._delete("apps/%s" % name)
 
     def get_services(self):
         return [StackatoService.from_dict(service, self) for service in self._get("services/")]
