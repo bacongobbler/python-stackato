@@ -2,8 +2,6 @@ import json
 import urllib
 from urlparse import urljoin
 import requests
-from stackato.apps import StackatoApp
-from stackato.services import StackatoService
 from stackato.exceptions import StackatoException, StackatoAuthenticationException
 import os
 
@@ -139,10 +137,10 @@ class StackatoInterface(object):
         return self._get_true_or_exception(url, request_type=requests.delete)
 
     def get_apps(self):
-        return [StackatoApp.from_dict(app, self) for app in self._get('apps')]
+        return self._get('apps')
 
     def get_app(self, name):
-        return StackatoApp.from_dict(self._get('apps/%s' % name), self)
+        return self._get('apps/%s' % name)
 
     def put_app(self, name, data):
         return self._put(("apps/%s" % name), data)
@@ -160,10 +158,10 @@ class StackatoInterface(object):
         return self._get("apps/%s/stats" % name)
 
     def get_services(self):
-        return [StackatoService.from_dict(service, self) for service in self._get("services/")]
+        return self._get("services/")
 
     def get_service(self, name):
-        return StackatoService.from_dict(self._get("services/%s" % name), self)
+        return self._get("services/%s" % name)
 
     def delete_service(self, name):
         return self._delete("services/%s" % name)
