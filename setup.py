@@ -5,11 +5,11 @@ from distutils.core import setup
 
 setup(
     author=u'Matthew Fisher',
-    author_email='me@bacongobbler.com',
+    author_email='bacongobbler@bacongobbler.com',
     name='python-stackato',
     description='Python interface to Stackato',
     version="0.1",
-    url='http://www.github.com/bacongobbler/python-cloudfoundry/',
+    url='http://www.github.com/bacongobbler/python-stackato/',
     license='MIT License',
     packages = find_packages(),
     classifiers=[
