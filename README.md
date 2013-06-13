@@ -54,3 +54,16 @@ if sti.login():
     if sti.put_app('demo', app):
         print('added one more instance to this application.')
 ```
+
+### Making a custom GET request
+
+This will also work with _post(), _put(), and _delete(). You can also take a look at _request() if you want to make your own custom request call.
+
+```python
+from stackato.interfaces import StackatoInterface
+
+sti = StackatoInterface("https://api.stackato-xxxx.local/", "username", "password")
+
+if sti.login():
+    print(sti._get('stackato/usage?all=1'))
+```
