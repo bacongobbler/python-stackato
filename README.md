@@ -7,6 +7,8 @@ To read up more on the Stackato Client API, please see the documentation [here](
 
 ## Usage
 
+Take a look at the examples/ folder for some real-life examples.
+
 ### Logging into the client
 
 ```python
