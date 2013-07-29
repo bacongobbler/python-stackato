@@ -5,7 +5,7 @@ from distutils.core import setup
 
 setup(
     author=u'Matthew Fisher',
-    author_email='bacongobbler@bacongobbler.com',
+    author_email='me@bacongobbler.com',
     name='python-stackato',
     description='Python interface to Stackato',
     version="0.1",
