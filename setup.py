@@ -13,7 +13,7 @@ setup(
     license='MIT License',
     packages = find_packages(),
     classifiers=[
-        'Development Status :: 1 - Alpha',
+        'Development Status :: 3 - Alpha',
         'Intended Audience :: Developers',
         'Operating System :: OS Independent',
         'Programming Language :: Python',
