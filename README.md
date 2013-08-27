@@ -5,6 +5,10 @@ A wrapper to the Stackato Client API. Allows users to make requests to the Stack
 
 To read up more on the Stackato Client API, please see the documentation [here](http://docs.stackato.com/api/client.html).
 
+## Installation
+
+    pip install python-stackato
+
 ## Usage
 
 Take a look at the examples/ folder for some real-life examples.
