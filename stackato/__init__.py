@@ -24,13 +24,16 @@ class StackatoSession(object):
         self.token = None                   # token that is required for authenticated calls to the API
         self.store_token = store_token      # flag to store the token locally on the computer
         self.token_file = os.path.expanduser(self.TOKEN_FILE_LOCAL_PATH)    # path to the file that contains the token
-
-        # check if the token is currently within the file. if it is, extract it and set self.token
-        if self.store_token:
             
 
+    '''
+    This constructor assumes that the user already has a valid token to log into stackato,
+    so no username or password is necessary to use the API.
+    '''
     def __init__(self, target):
         self.target = target
+        self.token = self.get_token()
+        self.store_token = False            # No need to save the token to the file, since it already exists!
 
     '''
     Retrieves the client token for the targeted stackato instance.
