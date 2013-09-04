@@ -9,6 +9,11 @@ To read up more on the Stackato Client API, please see the documentation [here](
 
     pip install python-stackato
 
+alternatively...
+
+    git clone https://github.com/bacongobbler/python-stackato
+    python setup.py install
+
 ## Usage
 
 Take a look at the examples/ folder for some real-life examples.
