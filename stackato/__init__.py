@@ -9,7 +9,7 @@ import os
 Represents a user session to communicate with a
 Stackato micro cloud or cluster (known as a Stackato instance).
 '''
-class StackatoSession(object):
+class Session(object):
     
     TOKEN_FILE = '~/.stackato/client/token'
 
