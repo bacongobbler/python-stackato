@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 from stackato import Session
 from bs4 import BeautifulSoup
 import requests
