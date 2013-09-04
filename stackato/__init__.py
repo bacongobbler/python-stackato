@@ -17,7 +17,7 @@ class StackatoSession(object):
     Initializes the interface. This interface
     allows developers to make calls to the Stackato API.
     '''
-    def __init__(self, target, username=None, password=None, store_token=False):
+    def __init__(self, target, username, password, store_token=False):
         self.target = target                # the Stackato instance we are targeting
         self.username = username            # username used to log into the instance
         self.password = password            # password used for the username
