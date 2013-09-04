@@ -16,19 +16,19 @@ Take a look at the examples/ folder for some real-life examples.
 ### Logging into the client
 
 ```python
-from stackato.interfaces import StackatoInterface
+from stackato import StackatoSession
 
-sti = StackatoInterface("https://api.stackato-xxxx.local/", "username", "password")
+sti = StackatoSession("https://api.stackato-xxxx.local/", "username", "password")
 sti.login()
 ```
 
 ### Storing the authentication token locally, and deleting an app
 
 ```python
-from stackato.interfaces import StackatoInterface
+from stackato import StackatoSession
 
 # Spot the difference!
-sti = StackatoInterface("https://api.stackato-xxxx.local/", "username", "password", store_token=True)
+sti = StackatoSession("https://api.stackato-xxxx.local/", "username", "password", store_token=True)
     
 if sti.login():
     sti.delete_app('demo')
@@ -37,9 +37,9 @@ if sti.login():
 ### Listing all services bound to an app
 
 ```python
-from stackato.interfaces import StackatoInterface
+from stackato import StackatoSession
 
-sti = StackatoInterface("https://api.stackato-xxxx.local/", "username", "password")
+sti = StackatoSession("https://api.stackato-xxxx.local/", "username", "password")
 
 if sti.login():
     print(sti.get_app('demo').services)
@@ -48,9 +48,9 @@ if sti.login():
 ### Forcing your app to increase its number of instances by one
 
 ```python
-from stackato.interfaces import StackatoInterface
+from stackato import StackatoSession
 
-sti = StackatoInterface("https://api.stackato-xxxx.local/", "username", "password")
+sti = StackatoSession("https://api.stackato-xxxx.local/", "username", "password")
 
 if sti.login():
     app = sti.get_app('demo')
@@ -66,9 +66,9 @@ if sti.login():
 This will also work with _post(), _put(), and _delete(). You can also take a look at _request() if you want to make your own custom request call.
 
 ```python
-from stackato.interfaces import StackatoInterface
+from stackato import StackatoSession
 
-sti = StackatoInterface("https://api.stackato-xxxx.local/", "username", "password")
+sti = StackatoSession("https://api.stackato-xxxx.local/", "username", "password")
 
 if sti.login():
     print(sti._get('stackato/usage?all=1'))
