@@ -1,4 +1,4 @@
-from stackato.interfaces import StackatoInterface
+from stackato import StackatoSession
 from bs4 import BeautifulSoup
 import requests
 import yaml
@@ -34,7 +34,7 @@ def get_newrelic_threshold_value(user, appid, name='CPU'):
 
 if __name__ == "__main__":
     # create a new interface to stackato with your login credentials
-    sti = StackatoInterface(CREDENTIALS['target'], CREDENTIALS['username'], CREDENTIALS['password'])
+    sti = StackatoSession(CREDENTIALS['target'], CREDENTIALS['username'], CREDENTIALS['password'])
 
     # convert to float, since the CPU threshold value is returned as a string
     metric_value = float(get_newrelic_threshold_value())
