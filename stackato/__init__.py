@@ -23,8 +23,6 @@ class StackatoSession(object):
         self.password = password            # password used for the username
         self.token = None                   # token that is required for authenticated calls to the API
         self.store_token = store_token      # flag to store the token locally on the computer
-        self.token_file = os.path.expanduser(self.TOKEN_FILE_LOCAL_PATH)    # path to the file that contains the token
-            
 
     '''
     This constructor assumes that the user already has a valid token to log into stackato,
