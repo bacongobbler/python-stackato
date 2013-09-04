@@ -6,10 +6,10 @@ from stackato.exceptions import StackatoException, StackatoAuthenticationExcepti
 import os
 
 '''
-Represents an interface to communicate with a
+Represents a user session to communicate with a
 Stackato micro cloud or cluster (known as a Stackato instance).
 '''
-class StackatoInterface(object):
+class StackatoSession(object):
     
     TOKEN_FILE_LOCAL_PATH = '~/.stackato/client/token'
 
