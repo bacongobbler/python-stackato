@@ -45,7 +45,7 @@ class StackatoSession(object):
                     if self.target in data:
                         return data[self.target]
                 except ValueError: # Invalid JSON in file, probably empty (or modified. Kids these days...)
-                    pass
+                    raise
 
     '''
     Dumps the token for this stackato target to the client's token file.
