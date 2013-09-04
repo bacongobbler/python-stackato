@@ -11,7 +11,7 @@ Stackato micro cloud or cluster (known as a Stackato instance).
 '''
 class StackatoSession(object):
     
-    TOKEN_FILE_LOCAL_PATH = '~/.stackato/client/token'
+    TOKEN_FILE = '~/.stackato/client/token'
 
     '''
     Initializes the interface. This interface
@@ -37,7 +37,7 @@ class StackatoSession(object):
     Retrieves the client token for the targeted stackato instance.
     '''
     def get_token(self):
-        token_file = os.path.expanduser(self.TOKEN_FILE_LOCAL_PATH)
+        token_file = os.path.expanduser(self.TOKEN_FILE)
         if os.path.exists(token_file):
             with open(token_file) as fobj:
                 try:
@@ -51,7 +51,7 @@ class StackatoSession(object):
     Dumps the token for this stackato target to the client's token file.
     '''
     def set_token(self, token):
-        token_file = os.path.expanduser(self.TOKEN_FILE_LOCAL_PATH)
+        token_file = os.path.expanduser(self.TOKEN_FILE)
         if os.path.exists(token_file):
             try:
                 with open(token_file) as tfile:
