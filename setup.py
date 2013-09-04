@@ -9,7 +9,7 @@ setup(
     author_email='me@bacongobbler.com',
     name='python-stackato',
     description='Python interface to Stackato',
-    version="1.2",
+    version="1.3",
     url='http://www.github.com/bacongobbler/python-stackato/',
     license='MIT License',
     packages = find_packages(),
