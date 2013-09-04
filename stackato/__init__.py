@@ -30,7 +30,9 @@ class StackatoSession(object):
     '''
     def __init__(self, target):
         self.target = target
-        self.token = self.get_token()
+        self.username = None                # not needed
+        self.password = None                # not needed
+        self.token = None
         self.store_token = False            # No need to save the token to the file, since it already exists!
 
     '''
@@ -50,17 +52,16 @@ class StackatoSession(object):
     '''
     Dumps the token for this stackato target to the client's token file.
     '''
-    def set_token(self, data):
+    def set_token(self, token):
         token_file = os.path.expanduser(self.TOKEN_FILE_LOCAL_PATH)
         if os.path.exists(token_file):
             try:
                 with open(token_file) as tfile:
                     data = json.loads(tfile.read())
-                    data[self.target] = self.token
+                    data[self.target] = token
+                    tfile.write(data)
             except ValueError: # Invalid JSON in file, probably empty
                 pass
-        with open(token_file, 'w') as tfile:
-            json.dump(data, tfile)
 
     '''
     Retrieves the "Authentication:" header required for making specific calls to the
@@ -119,15 +120,24 @@ class StackatoSession(object):
     sets self.token for the authenticted user.
     '''
     def login(self):
-        self.token = self._get_json_or_exception(
-            "users/%s/tokens" % urllib.quote_plus(self.username),
-            request_type=requests.post,
-            authentication_required=False,
-            data={'password': self.password}
-        )['token']
-        if self.store_token:
-            data = {self.target: self.token}
-            self.set_token(data)
+        # user specified only the target; alternative authentication
+        if self.username is None and self.password is None:
+            return self.login_passwordless()
+        try:
+            self.token = self._get_json_or_exception(
+                "users/%s/tokens" % urllib.quote_plus(self.username),
+                request_type=requests.post,
+                authentication_required=False,
+                data={'password': self.password}
+            )['token']
+            if self.store_token:
+                self.set_token(self.token)
+            return True
+        except ValueError:
+            pass
+
+    def login_passwordless(self):
+        self.token = self.get_token()
         return True
 
     '''
