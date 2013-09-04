@@ -18,8 +18,20 @@ Take a look at the examples/ folder for some real-life examples.
 ```python
 from stackato import Session
 
-sti = Session("https://api.stackato-xxxx.local/", "username", "password")
-sti.login()
+s = Session("https://api.stackato-xxxx.local/", "username", "password")
+s.login()
+```
+
+### Passwordless Authentication
+
+This is for when you have previously logged in and the token is stored
+within your client token file (hidden at ~/.stackato/client/token)
+
+```python
+from stackato import Session
+s = Session("https://api.stacka.to")
+if s.login():
+    print(s._get('info'))
 ```
 
 ### Storing the authentication token locally, and deleting an app
@@ -28,21 +40,21 @@ sti.login()
 from stackato import Session
 
 # Spot the difference!
-sti = Session("https://api.stackato-xxxx.local/", "username", "password", store_token=True)
-    
-if sti.login():
-    sti.delete_app('demo')
+s = Session("https://api.stackato-xxxx.local/", "username", "password")
+
+if s.login(True):
+    s.delete_app('demo')
 ```
 
-### Listing all services bound to an app
+### Lisng all services bound to an app
 
 ```python
 from stackato import Session
 
-sti = Session("https://api.stackato-xxxx.local/", "username", "password")
+s = Session("https://api.stackato-xxxx.local/", "username", "password")
 
-if sti.login():
-    print(sti.get_app('demo').services)
+if s.login():
+    print(s.get_app('demo').services)
 ```
 
 ### Forcing your app to increase its number of instances by one
@@ -50,14 +62,14 @@ if sti.login():
 ```python
 from stackato import Session
 
-sti = Session("https://api.stackato-xxxx.local/", "username", "password")
+s = Session("https://api.stackato-xxxx.local/", "username", "password")
 
-if sti.login():
-    app = sti.get_app('demo')
+if s.login():
+    app = s.get_app('demo')
     app['instances'] += 1
         
     # make a PUT request to the application
-    if sti.put_app('demo', app):
+    if s.put_app('demo', app):
         print('added one more instance to this application.')
 ```
 
@@ -68,8 +80,8 @@ This will also work with _post(), _put(), and _delete(). You can also take a loo
 ```python
 from stackato import Session
 
-sti = Session("https://api.stackato-xxxx.local/", "username", "password")
+s = Session("https://api.stackato-xxxx.local/", "username", "password")
 
-if sti.login():
-    print(sti._get('stackato/usage?all=1'))
+if s.login():
+    print(s._get('stackato/usage?all=1'))
 ```
