@@ -17,12 +17,11 @@ class StackatoSession(object):
     Initializes the interface. This interface
     allows developers to make calls to the Stackato API.
     '''
-    def __init__(self, target, username, password, store_token=False):
+    def __init__(self, target, username, password):
         self.target = target                # the Stackato instance we are targeting
         self.username = username            # username used to log into the instance
         self.password = password            # password used for the username
         self.token = None                   # token that is required for authenticated calls to the API
-        self.store_token = store_token      # flag to store the token locally on the computer
 
     '''
     This constructor assumes that the user already has a valid token to log into stackato,
@@ -33,7 +32,6 @@ class StackatoSession(object):
         self.username = None                # not needed
         self.password = None                # not needed
         self.token = None
-        self.store_token = False            # No need to save the token to the file, since it already exists!
 
     '''
     Retrieves the client token for the targeted stackato instance.
@@ -69,8 +67,6 @@ class StackatoSession(object):
     '''
     def get_auth_args(self, authentication_required):
         if not (authentication_required or self.token):
-            return {}
-        elif not self.token and self.store_token: # Ignore, will request new token afterwards!
             return {}
         elif not self.token:
             raise StackatoAuthenticationException("Please login before using this function.")
@@ -119,7 +115,7 @@ class StackatoSession(object):
     Attempt to login to the Stackato instance. Also
     sets self.token for the authenticted user.
     '''
-    def login(self):
+    def login(self, store_token=False):
         # user specified only the target; alternative authentication
         if self.username is None and self.password is None:
             return self.login_passwordless()
@@ -130,7 +126,7 @@ class StackatoSession(object):
                 authentication_required=False,
                 data={'password': self.password}
             )['token']
-            if self.store_token:
+            if store_token:
                 self.set_token(self.token)
             return True
         except ValueError:
