@@ -27,14 +27,39 @@ class StackatoSession(object):
 
         # check if the token is currently within the file. if it is, extract it and set self.token
         if self.store_token:
-            if os.path.exists(self.token_file):
-                with open(self.token_file) as fobj:
-                    try:
-                        data = json.load(fobj)
-                        if self.target in data:
-                            self.token = data[self.target]
-                    except ValueError: # Invalid JSON in file, probably empty (or modified. Kids these days...)
-                        pass
+            
+
+    def __init__(self, target):
+        self.target = target
+
+    '''
+    Retrieves the client token for the targeted stackato instance.
+    '''
+    def get_token(self):
+        token_file = os.path.expanduser(self.TOKEN_FILE_LOCAL_PATH)
+        if os.path.exists(token_file):
+            with open(token_file) as fobj:
+                try:
+                    data = json.load(fobj)
+                    if self.target in data:
+                        return data[self.target]
+                except ValueError: # Invalid JSON in file, probably empty (or modified. Kids these days...)
+                    pass
+
+    '''
+    Dumps the token for this stackato target to the client's token file.
+    '''
+    def set_token(self, data):
+        token_file = os.path.expanduser(self.TOKEN_FILE_LOCAL_PATH)
+        if os.path.exists(token_file):
+            try:
+                with open(token_file) as tfile:
+                    data = json.loads(tfile.read())
+                    data[self.target] = self.token
+            except ValueError: # Invalid JSON in file, probably empty
+                pass
+        with open(token_file, 'w') as tfile:
+            json.dump(data, tfile)
 
     '''
     Retrieves the "Authentication:" header required for making specific calls to the
@@ -101,15 +126,7 @@ class StackatoSession(object):
         )['token']
         if self.store_token:
             data = {self.target: self.token}
-            if os.path.exists(self.token_file):
-                try:
-                    with open(self.token_file) as token_file:
-                        data = json.loads(token_file.read())
-                        data[self.target] = self.token
-                except ValueError: # Invalid JSON in file, probably empty
-                    pass
-            with open(self.token_file, 'w') as token_file:
-                json.dump(data, token_file)
+            self.set_token(data)
         return True
 
     '''
