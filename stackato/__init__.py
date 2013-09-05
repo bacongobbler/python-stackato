@@ -17,23 +17,11 @@ class Session(object):
     TOKEN_FILE = '~/.stackato/client/token'
 
     '''
-    Initializes the interface. This interface
-    allows developers to make calls to the Stackato API.
-    '''
-    def __init__(self, target, username, password):
-        self.target = target                # the Stackato instance we are targeting
-        self.username = username            # username used to log into the instance
-        self.password = password            # password used for the username
-        self.token = None                   # token that is required for authenticated calls to the API
-
-    '''
     This constructor assumes that the user already has a valid token to log into stackato,
     so no username or password is necessary to use the API.
     '''
     def __init__(self, target):
         self.target = target
-        self.username = None                # not needed
-        self.password = None                # not needed
         self.token = None
 
     '''
@@ -118,22 +106,22 @@ class Session(object):
     Attempt to login to the Stackato instance. Also
     sets self.token for the authenticted user.
     '''
-    def login(self, store_token=False):
-        # user specified only the target; alternative authentication
-        if self.username is None and self.password is None:
-            return self.login_passwordless()
+    def login(self, username=None, password=None, store_token=False):
         try:
+            # user specified only the target; alternative authentication
+            if username is None and password is None:
+                return self.login_passwordless()
             self.token = self._get_json_or_exception(
-                "users/%s/tokens" % urllib.quote_plus(self.username),
+                "users/%s/tokens" % urllib.quote_plus(username),
                 request_type=requests.post,
                 authentication_required=False,
-                data={'password': self.password}
+                data={'password': password}
             )['token']
             if store_token:
                 self.set_token(self.token)
             return True
         except ValueError:
-            pass
+            raise
 
     def login_passwordless(self):
         self.token = self.get_token()
