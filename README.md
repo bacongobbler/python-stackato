@@ -26,8 +26,8 @@ Take a look at the examples/ folder for some real-life examples.
 ```python
 from stackato import Session
 
-s = Session("https://api.stackato-xxxx.local/", "username", "password")
-s.login()
+s = Session("https://api.stackato-xxxx.local/")
+s.login("username", "password")
 ```
 
 ### Passwordless Authentication
@@ -48,9 +48,9 @@ if s.login():
 from stackato import Session
 
 # Spot the difference!
-s = Session("https://api.stackato-xxxx.local/", "username", "password")
+s = Session("https://api.stackato-xxxx.local/")
 
-if s.login(True):
+if s.login(store_token=True):
     s.delete_app('demo')
 ```
 
@@ -59,7 +59,7 @@ if s.login(True):
 ```python
 from stackato import Session
 
-s = Session("https://api.stackato-xxxx.local/", "username", "password")
+s = Session("https://api.stackato-xxxx.local/")
 
 if s.login():
     print(s.get_app('demo').services)
@@ -70,7 +70,7 @@ if s.login():
 ```python
 from stackato import Session
 
-s = Session("https://api.stackato-xxxx.local/", "username", "password")
+s = Session("https://api.stackato-xxxx.local/")
 
 if s.login():
     app = s.get_app('demo')
@@ -88,7 +88,7 @@ This will also work with _post(), _put(), and _delete(). You can also take a loo
 ```python
 from stackato import Session
 
-s = Session("https://api.stackato-xxxx.local/", "username", "password")
+s = Session("https://api.stackato-xxxx.local/")
 
 if s.login():
     print(s._get('stackato/usage?all=1'))
