@@ -13,14 +13,14 @@ Represents a user session to communicate with a
 Stackato micro cloud or cluster (known as a Stackato instance).
 '''
 class Session(object):
-    
+
     TOKEN_FILE = '~/.stackato/client/token'
 
     '''
     This constructor assumes that the user already has a valid token to log into stackato,
     so no username or password is necessary to use the API.
     '''
-    def __init__(self, target):
+    def __init__(self, target="https://api.stacka.to/"):
         self.target = target
         self.token = None
 
