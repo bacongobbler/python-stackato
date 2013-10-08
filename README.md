@@ -37,7 +37,7 @@ within your client token file (hidden at ~/.stackato/client/token)
 
 ```python
 from stackato import Session
-s = Session("https://api.stacka.to")
+s = Session("https://api.stacka.to/")
 if s.login():
     print(s._get('info'))
 ```
