@@ -19,7 +19,7 @@ alternatively...
 
 ## Usage
 
-Take a look at the examples/ folder for some real-life examples.
+Take a look at the `examples/` folder for some real-life examples.
 
 ### Logging into the client
 
