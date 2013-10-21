@@ -37,7 +37,7 @@ def get_newrelic_threshold_value(user, appid, name='CPU'):
 
 if __name__ == "__main__":
     # create a new interface to stackato with your login credentials
-    s = Session(CREDENTIALS['target'], CREDENTIALS['username'], CREDENTIALS['password'])
+    s = Session(CREDENTIALS['target'])
 
     # convert to float, since the CPU threshold value is returned as a string
     metric_value = float(get_newrelic_threshold_value())
@@ -46,7 +46,7 @@ if __name__ == "__main__":
         print('application running normally. no new instances spawned.')
     else:
         # log into Stackato
-        if s.login():
+        if s.login(CREDENTIALS['username'], CREDENTIALS['password']):
             # making a GET request
             app = s.get_app(APP_NAME)
             # increase the number of instances
