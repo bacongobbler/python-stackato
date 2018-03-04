@@ -1,8 +1,8 @@
 Python-Stackato
 ===============
 
-[![PyPi version](https://pypip.in/v/python-stackato/badge.png)](https://crate.io/packages/python-stackato/)
-[![PyPi downloads](https://pypip.in/d/python-stackato/badge.png)](https://crate.io/packages/python-stackato/)
+[![PyPi version](https://img.shields.io/pypi/v/python-stackato.svg)](https://crate.io/packages/python-stackato/)
+[![PyPi downloads](https://img.shields.io/pypi/dm/python-stackato.svg)](https://crate.io/packages/python-stackato/)
 
 A wrapper to the Stackato Client API. Easy Peasy Lemon Squeezy. To read up more on the Stackato Client API, please see the documentation [here](http://docs.stackato.com/api/client.html).
 
